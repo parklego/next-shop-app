@@ -1,35 +1,27 @@
 "use client";
-import Image from "next/image";
 import React, { useState } from "react";
-
-import LogoPath from "@/assets/colorful.svg";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader/Loader";
-import styles from "./Auth.module.scss";
-import Input from "../../../components/input/Input";
-import AutoSignInCheckbox from "../../../components/autoSignInCheckbox/AutoSignInCheckbox";
-import Divider from "@/components/divider/Divider";
+import styles from "../login/Auth.module.scss";
+import LogoPath from "@/assets/colorful.svg";
+import Image from "next/image";
+import Input from "@/components/input/Input";
 import Button from "@/components/button/Button";
-import Link from "next/link";
+import Divider from "@/components/divider/Divider";
+import  Link  from "next/link";
 
-const LoginClient = () => {
+function RegisterClient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isAutoLogin, setIsAutoLogin] = useState(false);
 
   const router = useRouter();
 
-  const redirectUser = () => {
-    router.push("/");
-  };
-
-  const loginUser = (e) => {
+  const registerUser = (e) => {
     e.preventDefault();
     setIsLoading(true);
   };
-
-  const signInWithGoogle = () => {};
 
   return (
     <>
@@ -40,7 +32,7 @@ const LoginClient = () => {
             <Image src={LogoPath} priority alt="logo" />
           </h1>
 
-          <form onSubmit={loginUser} className={styles.form}>
+          <form className={styles.form}>
             <Input
               email
               icon="letter"
@@ -63,49 +55,33 @@ const LoginClient = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className={styles.group}>
-              <AutoSignInCheckbox
-                checked={isAutoLogin}
-                onChange={(e) => setIsAutoLogin(e.target.checked)}
-              />
+            <Input
+              password
+              icon="lock"
+              id="confirmPassword"
+              name="confirmPassword"
+              label="비밀번호 확인"
+              placeholder="비밀번호 확인"
+              className={styles.control}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
 
-              <Link href={"/reset"} className={styles.findLink}>
-                비밀번호 수정하기
-                <svg
-                  width="11"
-                  height="18"
-                  viewBox="0 0 11 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={styles.findLinkArrow}
-                >
-                  <path
-                    d="M1.5 1L9.5 9L1.5 17"
-                    stroke="#0074E9"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </Link>
-            </div>
             <div className={styles.buttonGroup}>
               <Button type="submit" width="100%">
-                로그인
+                회원가입
               </Button>
               <Divider />
               <Button width="100%" secondary>
-                <Link href="/register">회원가입</Link>
+                <Link href="/login">로그인</Link>
               </Button>
               <Divider />
-
-              <div>
-                <Button onClick={signInWithGoogle}>구글 로그인</Button>
-              </div>
             </div>
           </form>
         </div>
       </section>
     </>
   );
-};
+}
 
-export default LoginClient;
+export default RegisterClient;
