@@ -9,6 +9,8 @@ import styles from "./Auth.module.scss";
 import Input from "../../../components/input/Input";
 import AutoSignInCheckbox from "../../../components/autoSignInCheckbox/AutoSignInCheckbox";
 import Divider from "@/components/divider/Divider";
+import Button from "@/components/button/Button";
+import Link from "next/link";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -68,10 +70,18 @@ const LoginClient = () => {
               />
             </div>
             <div className={styles.buttonGroup}>
-              button
+              <Button type="submit" width="100%">
+                로그인
+              </Button>
               <Divider />
-              <div>button</div>
+              <Button width="100%" secondary>
+                <Link href="/register">회원가입</Link>
+              </Button>
               <Divider />
+
+              <div>
+                <Button onClick={signInWithGoogle}>구글 로그인</Button>
+              </div>
             </div>
           </form>
         </div>
