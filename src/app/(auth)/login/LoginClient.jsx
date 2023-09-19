@@ -13,6 +13,13 @@ import Button from "@/components/button/Button";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
+import { auth } from "../../../firebase/firebase";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+
 const LoginClient = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,11 +35,32 @@ const LoginClient = () => {
   const loginUser = (e) => {
     e.preventDefault();
 
-    toast.info("성공");
+    // toast.info("성공");
     setIsLoading(true);
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        setIsLoading(false);
+        toast.success("로그인 성공");
+        redirectUser();
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        toast.error(error.message);
+      });
   };
 
-  const signInWithGoogle = () => {};
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        toast.success("로그인 성공");
+        redirectUser();
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
 
   return (
     <>
@@ -101,7 +129,9 @@ const LoginClient = () => {
               <Divider />
 
               <div>
-                <Button onClick={signInWithGoogle}>구글 로그인</Button>
+                <Button onClick={signInWithGoogle} bgColor="red">
+                  구글 로그인
+                </Button>
               </div>
             </div>
           </form>
